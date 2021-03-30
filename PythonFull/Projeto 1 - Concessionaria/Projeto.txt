@@ -1,0 +1,10 @@
+Criar um sistema de mercearia o qual:
+
+Cadastro / Alteração / Remoção de: {
+Automovel, Fornecedor, Cliente, Funcionário
+}
+
+Caixa
+Relatório de: {
+Vendas geral, vendas por data, top n produtos mais vendidos, clientes que mais compraram
+}
