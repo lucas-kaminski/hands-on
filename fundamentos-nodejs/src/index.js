@@ -1,54 +1,55 @@
-const express = require('express') //inicializa o express
+const express = require('express')
+const { v4:uuidv4 } = require('uuid')
+
 const app = express()
-
-app.listen(3333) //starta o app, passando a porta especifica
-//localhost:3333
-
+app.listen(3333)
 app.use(express.json())
 
-app.get("/", (request, response) => {
-  return response.json({message: "Hello world!"}) //retorna um json
-  // return response.send("Hello World!") //renderiza por html
+const customers = []
+
+//Middleware -> precisa três parâmetros, request, response e next
+function verifyIfExistsAccountCPF(request, response, next) {
+  const { cpf } = request.headers 
+  
+  const customer = customers.find(customer => customer.cpf === cpf)
+  
+  if(!customer) {
+    return response.status(400).json({error: "Customer not found"})
+  }
+
+  request.customer = customer //para passar para frente, via request
+
+  return next()
+}
+
+//cpf, name -> necessitado no body
+//id, statement (extrato) -> já tem no server
+app.post("/account", (request, response) => {
+  const {cpf, name} = request.body
+
+  const customerAlreadyExists = customers.some(customer => customer.cpf === cpf) //boolean
+  if (customerAlreadyExists) {
+    return response.status(400).json({error: "Customer already exists!"})
+  }
+
+  customers.push({
+    cpf,
+    name,
+    id: uuidv4(),
+    statement: []
+  })
+
+  return response.status(201).json(customers)
 })
 
-/* MÉTODOS
-* GET - Buscar informação dentro do server
-* POST - Inserir informações no server
-* PUT - Alterar uma informação
-* PATCH - Altera uma informação específica
-* DELETE - Deletar informação
-*/
+//Middleware pode ser posto tanto no metodo quando no use
+// app.use(verifyIfExistsAccountCPF)
+// todos metodos abaixo irão testar tal valor
 
-app.get("/courses", (request, response) => {
-  const query = request.query
-  console.log(query) // /courses?page=1&order=asc
-  return response.json(["Curso 1", "Curso 2", "Curso 3"])
+// app.get("/statement/:cpf", (request, response) => { //por params
+// const { cpf } = request.params
+// a estrutura é mesma, só muda o cpf por header ou params
+app.get("/statement/", verifyIfExistsAccountCPF, (request, response) => { //por headers
+  const {customer} = request //pega o customer desestrutuado do verify
+  return response.json(customer.statement)
 })
-
-app.post("/courses", (request, response) => {
-  const body = request.body
-  console.log(body)
-  return response.json(["Curso 1", "Curso 2", "Curso 3", "Curso 4"])
-})
-
-app.put("/courses/:id", (request, response) => { //:id é um parametro pela rota (/courses/1)
-  const params = request.params //pegar os route params
-  const { id } = request.params //desestruturado
-  console.log(params, 'estruturado')
-  console.log(id, 'desestruturado')
-  return response.json(["Curso 6", "Curso 2", "Curso 3", "Curso 4"])
-})
-
-app.patch("/courses/:id", (request, response) => {
-  return response.json(["Curso 6", "Curso 7", "Curso 3", "Curso 4"])
-})
-
-app.delete("/courses/:id", (request, response) => {
-  return response.json(["Curso 6", "Curso 7", "Curso 4"])
-})
-
-/* PARÂMETROS
-* Route Params => Na rota, obrigatório, passado para identificar um recurso para editar/deletar/buscar
-* Query Params => Na rota, opcional, após o ?, serve para paginação / filtro | & separa os query
-* Body Params => Obrigatório, Objetos para inserção/alteração (JSON) | tem que informar no express que é tipo JSON no app.use
-*/
