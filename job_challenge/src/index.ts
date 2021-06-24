@@ -100,5 +100,11 @@ app.delete("/user/:cpf", checkAuthentication, (request, response) => {
   const { cpf } = request.params
   const userDeleted = users.findIndex(user => user.cpf === cpf)
   users.splice(userDeleted, 1)
+
+  fs.writeFile ("./database/users.json", JSON.stringify(users), err => {
+    if (err) throw err;
+    }
+  )
+
   return response.status(200).json('Deletado')
 })
