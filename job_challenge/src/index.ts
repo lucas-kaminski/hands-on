@@ -1,7 +1,10 @@
 import express from 'express'
 import { v4 as uuidv4 } from 'uuid'
 import fs from 'fs'
-import { connection, addNewUser } from '../database/config'
+
+import { connection } from '../database/connection'
+
+// import { connection, addNewUser, getAllUsers } from '../database/config'
 
 import { IUser } from '../types/@types'
 
@@ -38,8 +41,9 @@ function checkAuthentication(request, response, next) {
 }
 
 //all users
-app.get("/users/", checkAuthentication, (request, response) => {
-  return response.status(200).json(users)
+app.get("/users/", checkAuthentication, async (request, response) => {
+  const teste = await connection('users').select('*')
+  return response.status(200).json(teste)
 })
 
 //one user 
@@ -68,7 +72,7 @@ app.post("/user", (request, response,) => {
   users.push(user)
   saveUsers()
 
-  addNewUser(connection, [[nome, cpf, email, telefone, endereco, cidade]])
+  // addNewUser(connection, [[nome, cpf, email, telefone, endereco, cidade]])
 
   return response.status(200).json('Criado com sucesso!')
 })
