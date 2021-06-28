@@ -6,7 +6,7 @@
   "scripts": {
     "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\"",
     "dev": "tsc && nodemon src/index.ts",
-    "migrate": "prisma migrate dev",
+    "migrate": "prisma migrate dev && prisma db seed --preview-feature",
     "seed": "prisma db seed --preview-feature",
     "reset": "prisma migrate reset"
   },
@@ -20,6 +20,7 @@
     "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.7",
     "prisma": "^2.25.0",
+    "promise-redis": "^0.0.5",
     "ts-node": "^10.0.0",
     "typescript": "^4.3.4"
   }

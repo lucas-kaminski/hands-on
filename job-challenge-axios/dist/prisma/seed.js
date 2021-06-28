@@ -47,8 +47,10 @@ function main() {
                     return [4 /*yield*/, prisma.users.create({
                             data: {
                                 nome: 't1 dev',
-                                cpf: "000",
+                                cpf: "001",
                                 email: "t1@t1.com",
+                                login: "t1@t1.com",
+                                password: "PROCV",
                                 telefone: "41999999999",
                                 endereco: {
                                     create: {
@@ -65,7 +67,9 @@ function main() {
                     return [4 /*yield*/, prisma.users.create({
                             data: {
                                 nome: 't2 dev',
-                                cpf: "000",
+                                login: "t2@t2.com",
+                                password: "PROCV",
+                                cpf: "002",
                                 email: "t2@t2.com",
                                 telefone: "41888888888",
                                 endereco: {

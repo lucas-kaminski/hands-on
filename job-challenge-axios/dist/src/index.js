@@ -41,18 +41,78 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var express_1 = __importDefault(require("express"));
 var client_1 = require("@prisma/client");
+var jwt = require('jsonwebtoken');
+var redis = require('promise-redis')();
 var app = express_1["default"]();
 app.listen(3333);
 app.use(express_1["default"].json());
 var prisma = new client_1.PrismaClient();
-//print
+var serverRedis = redis.createClient();
+serverRedis.on("error", function (error) {
+    console.error(error);
+});
+//middleware
+function verifyJWT(request, response, next) {
+    return __awaiter(this, void 0, void 0, function () {
+        var redisToken;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, serverRedis.get("token")];
+                case 1:
+                    redisToken = _a.sent();
+                    if (!redisToken)
+                        return [2 /*return*/, response.status(401).json({ auth: false, message: 'Não existe token' })];
+                    jwt.verify(JSON.parse(redisToken), process.env.SECRET, function (err, decoded) {
+                        if (err)
+                            return response.status(500).json({ auth: false, message: 'Token inválido' });
+                    });
+                    next();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+//ping
 app.get("/", function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        return [2 /*return*/, response.json('Conectado com sucesso')];
+        return [2 /*return*/, response.json('Servidor online')];
     });
 }); });
+//folder session
+app.post("/login", function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, login, password, searchUser, id, token;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = request.body, login = _a.login, password = _a.password;
+                return [4 /*yield*/, prisma.users.findFirst({ where: { login: login } })];
+            case 1:
+                searchUser = _b.sent();
+                if (!searchUser) {
+                    return [2 /*return*/, response.status(400).json("Login inválido")];
+                }
+                if (!(password === (searchUser === null || searchUser === void 0 ? void 0 : searchUser.password))) return [3 /*break*/, 3];
+                id = 1;
+                token = jwt.sign({ id: id }, process.env.SECRET, {
+                    expiresIn: 300
+                });
+                return [4 /*yield*/, serverRedis.set("token", JSON.stringify(token))];
+            case 2:
+                _b.sent();
+                return [2 /*return*/, response.status(200).json({ auth: true, token: token })];
+            case 3: return [2 /*return*/, response.status(400).json("Senha inválida")];
+        }
+    });
+}); });
+app.get("/logout", function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        serverRedis.del('token');
+        return [2 /*return*/, response.status(200).json("Logout realizado com sucesso")];
+    });
+}); });
+//folder users
 //All users
-app.get("/users", function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
+app.get("/users", verifyJWT, function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
     var users;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -64,7 +124,7 @@ app.get("/users", function (request, response) { return __awaiter(void 0, void 0
     });
 }); });
 //Single users
-app.get("/user/:cpf", function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
+app.get("/user/:cpf", verifyJWT, function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
     var cpf, user;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -81,11 +141,11 @@ app.get("/user/:cpf", function (request, response) { return __awaiter(void 0, vo
     });
 }); });
 app.post("/user", function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, nome, cpf, email, telefone, endereco, rua, numero, bairro, cidade, user, CreatedUser;
+    var _a, nome, login, password, cpf, email, telefone, endereco, rua, numero, bairro, cidade, user, CreatedUser;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _a = request.body, nome = _a.nome, cpf = _a.cpf, email = _a.email, telefone = _a.telefone, endereco = _a.endereco;
+                _a = request.body, nome = _a.nome, login = _a.login, password = _a.password, cpf = _a.cpf, email = _a.email, telefone = _a.telefone, endereco = _a.endereco;
                 rua = endereco.rua, numero = endereco.numero, bairro = endereco.bairro, cidade = endereco.cidade;
                 return [4 /*yield*/, prisma.users.findFirst({ where: { cpf: cpf } })];
             case 1:
@@ -102,6 +162,8 @@ app.post("/user", function (request, response) { return __awaiter(void 0, void 0
                 return [4 /*yield*/, prisma.users.create({
                         data: {
                             nome: nome,
+                            login: login,
+                            password: password,
                             cpf: cpf,
                             email: email,
                             telefone: telefone,
@@ -114,7 +176,7 @@ app.post("/user", function (request, response) { return __awaiter(void 0, void 0
         }
     });
 }); });
-app.patch("/user/:cpfParam", function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
+app.patch("/user/:cpfParam", verifyJWT, function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, nome, cpf, email, telefone, endereco, rua, numero, bairro, cidade, cpfParam, alteredUser;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -135,7 +197,7 @@ app.patch("/user/:cpfParam", function (request, response) { return __awaiter(voi
         }
     });
 }); });
-app["delete"]("/user/:cpfParam", function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
+app["delete"]("/user/:cpfParam", verifyJWT, function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
     var cpfParam, deletedUser;
     return __generator(this, function (_a) {
         switch (_a.label) {

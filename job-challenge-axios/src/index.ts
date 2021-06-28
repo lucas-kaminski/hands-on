@@ -1,8 +1,9 @@
 import express from 'express'
 import { PrismaClient } from '@prisma/client'
 
-const jwt = require('jsonwebtoken');
-require("dotenv-safe").config();
+const jwt = require('jsonwebtoken')
+
+const redis = require('promise-redis')();
 
 const app = express()
 app.listen(3333)
@@ -10,8 +11,15 @@ app.use(express.json())
 
 const prisma = new PrismaClient()
 
+const serverRedis = redis.createClient();
+serverRedis.on("error", (error: any) => {
+  console.error(error);
+});
+
 interface IUser {
   nome: string,
+  login: string,
+  password: string,
   cpf: string,
   email: string,
   telefone: string,
@@ -23,21 +31,15 @@ interface IUser {
   }
 }
 
-let loggedUser: any = {}
-
 //middleware
-function verifyJWT(request: express.Request, response: express.Response, next: any) {
-  // const token = request.headers['x-access-token']
-  const token = loggedUser.token
-  if (!token) return response.status(401).json({ auth: false, message: 'No token provided.' });
+async function verifyJWT(request: express.Request, response: express.Response, next: any) {
+  let redisToken = await serverRedis.get(`token`)
+  if (!redisToken) return response.status(401).json({ auth: false, message: 'Não existe token' })
 
-  jwt.verify(token, process.env.SECRET, function (err: any, decoded: any) {
-    if (err) return response.status(500).json({ auth: false, message: 'Failed to authenticate token.' });
-
-    // se tudo estiver ok, salva no requestuest para uso posterior
-    loggedUser.validate = decoded.id;
-    next();
-  });
+  jwt.verify(JSON.parse(redisToken), process.env.SECRET, function (err: any, decoded: any) {
+    if (err) return response.status(500).json({ auth: false, message: 'Token inválido' })
+  })
+  next()
 }
 
 //ping
@@ -46,21 +48,34 @@ app.get("/", async (request: express.Request, response: express.Response) => {
 }
 )
 
-//authentication login
-app.post("/login", (request: express.Request, response: express.Response) => {
-  const { user, password } = request.body
-  //fazer a busca do user e password por aqui
-  if (user === 'teste' && password === 'teste') {
+//folder session
+app.post("/login", async (request: express.Request, response: express.Response) => {
+  const { login, password } = request.body
+
+  const searchUser = await prisma.users.findFirst({ where: { login: login } })
+
+  if (!searchUser) {
+    return response.status(400).json("Login inválido")
+  }
+
+  if (password === searchUser?.password) {
     const id = 1
     const token = jwt.sign({ id }, process.env.SECRET, {
       expiresIn: 300
     })
-    loggedUser = { id, token, validate: '' }
+    await serverRedis.set(`token`, JSON.stringify(token))
     return response.status(200).json({ auth: true, token: token })
+  } else {
+    return response.status(400).json("Senha inválida")
   }
-  return response.status(400).json("Login inválido")
 })
 
+app.get("/logout", async (request: express.Request, response: express.Response) => {
+  serverRedis.del('token')
+  return response.status(200).json("Logout realizado com sucesso")
+})
+
+//folder users
 //All users
 app.get("/users", verifyJWT, async (request: express.Request, response: express.Response) => {
   const users = await prisma.users.findMany()
@@ -79,8 +94,8 @@ app.get("/user/:cpf", verifyJWT, async (request: express.Request, response: expr
   return response.status(200).json(user)
 })
 
-app.post("/user", verifyJWT, async (request: express.Request, response: express.Response) => {
-  const { nome, cpf, email, telefone, endereco }: IUser = request.body
+app.post("/user", async (request: express.Request, response: express.Response) => {
+  const { nome, login, password, cpf, email, telefone, endereco }: IUser = request.body
 
   const { rua, numero, bairro, cidade } = endereco
 
@@ -101,6 +116,8 @@ app.post("/user", verifyJWT, async (request: express.Request, response: express.
   const CreatedUser = await prisma.users.create({
     data: {
       nome,
+      login,
+      password,
       cpf,
       email,
       telefone,

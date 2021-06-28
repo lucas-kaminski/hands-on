@@ -9,6 +9,8 @@ async function main() {
       nome: 't1 dev',
       cpf: "001",
       email: "t1@t1.com",
+      login: "t1@t1.com",
+      password: "PROCV",
       telefone: "41999999999",
       endereco: {
         create: {
@@ -24,6 +26,8 @@ async function main() {
   await prisma.users.create({
     data: {
       nome: 't2 dev',
+      login: "t2@t2.com",
+      password: "PROCV",
       cpf: "002",
       email: "t2@t2.com",
       telefone: "41888888888",
