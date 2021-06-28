@@ -56,6 +56,19 @@ app.get("/users", function (request, response) { return __awaiter(void 0, void 0
         }
     });
 }); });
+app.get("/user/:cpf", function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
+    var cpf, user;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                cpf = request.params.cpf;
+                return [4 /*yield*/, prisma.users.findFirst({ where: { cpf: cpf } })];
+            case 1:
+                user = _a.sent();
+                return [2 /*return*/, response.status(200).json(user)];
+        }
+    });
+}); });
 app.post("/user", function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, nome, cpf, email, telefone, endereco, rua, numero, bairro, cidade, CreatedUser;
     return __generator(this, function (_b) {
@@ -72,12 +85,37 @@ app.post("/user", function (request, response) { return __awaiter(void 0, void 0
                             cpf: cpf,
                             email: email,
                             telefone: telefone,
-                            endereco: {}
+                            endereco: { create: { rua: rua, numero: numero, bairro: bairro, cidade: cidade } }
                         }
                     })];
             case 1:
                 CreatedUser = _b.sent();
                 return [2 /*return*/, response.status(200).json(CreatedUser)];
+        }
+    });
+}); });
+app.patch("/user/:cpfParam", function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, nome, cpf, email, telefone, endereco, rua, numero, bairro, cidade, cpfParam, user, alteredUser;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = request.body, nome = _a.nome, cpf = _a.cpf, email = _a.email, telefone = _a.telefone, endereco = _a.endereco;
+                rua = endereco.rua, numero = endereco.numero, bairro = endereco.bairro, cidade = endereco.cidade;
+                cpfParam = request.params.cpfParam;
+                return [4 /*yield*/, prisma.users.findFirst({ where: { cpf: cpfParam } })];
+            case 1:
+                user = _b.sent();
+                if (!user) return [3 /*break*/, 3];
+                return [4 /*yield*/, prisma.users.update({
+                        where: { id: user.id },
+                        data: { nome: nome, cpf: cpf, email: email, telefone: telefone, endereco: { update: { rua: rua, numero: numero, bairro: bairro, cidade: cidade } } }
+                    })];
+            case 2:
+                alteredUser = _b.sent();
+                response.status(200).json(alteredUser);
+                return [3 /*break*/, 4];
+            case 3: return [2 /*return*/, response.status(400).json('Nenhum usuário encontrado com este cpf')];
+            case 4: return [2 /*return*/];
         }
     });
 }); });
