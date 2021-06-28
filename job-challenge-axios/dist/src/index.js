@@ -73,7 +73,7 @@ function verifyJWT(request, response, next) {
     });
 }
 //ping
-app.get("/", function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
+app.get("/", verifyJWT, function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         return [2 /*return*/, response.json('Servidor online')];
     });

@@ -14,7 +14,7 @@ const prisma = new PrismaClient()
 const serverRedis = redis.createClient();
 serverRedis.on("error", (error: any) => {
   console.error(error);
-});
+})
 
 interface IUser {
   nome: string,
@@ -32,8 +32,9 @@ interface IUser {
 }
 
 //middleware
-async function verifyJWT(request: express.Request, response: express.Response, next: any) {
-  let redisToken = await serverRedis.get(`token`)
+async function verifyAuth(request: express.Request, response: express.Response, next: any) {
+  let redisToken = await serverRedis.get(`token`) //administrar para salvar por usuário
+  serverRedis.expire('token', 86400) //1 dia
   if (!redisToken) return response.status(401).json({ auth: false, message: 'Não existe token' })
 
   jwt.verify(JSON.parse(redisToken), process.env.SECRET, function (err: any, decoded: any) {
@@ -76,24 +77,8 @@ app.get("/logout", async (request: express.Request, response: express.Response) 
 })
 
 //folder users
-//All users
-app.get("/users", verifyJWT, async (request: express.Request, response: express.Response) => {
-  const users = await prisma.users.findMany()
-  return response.status(200).json(users)
-})
 
 //Single users
-app.get("/user/:cpf", verifyJWT, async (request: express.Request, response: express.Response) => {
-  const { cpf } = request.params
-  const user = await prisma.users.findFirst({ where: { cpf: cpf } })
-
-  if (!user) {
-    return response.status(400).json("CPF não cadastrado")
-  }
-
-  return response.status(200).json(user)
-})
-
 app.post("/user", async (request: express.Request, response: express.Response) => {
   const { nome, login, password, cpf, email, telefone, endereco }: IUser = request.body
 
@@ -129,7 +114,18 @@ app.post("/user", async (request: express.Request, response: express.Response) =
 }
 )
 
-app.patch("/user/:cpfParam", verifyJWT, async (request: express.Request, response: express.Response) => {
+app.get("/user/:cpf", verifyAuth, async (request: express.Request, response: express.Response) => {
+  const { cpf } = request.params
+  const user = await prisma.users.findFirst({ where: { cpf: cpf } })
+
+  if (!user) {
+    return response.status(400).json("CPF não cadastrado")
+  }
+
+  return response.status(200).json(user)
+})
+
+app.patch("/user/:cpfParam", verifyAuth, async (request: express.Request, response: express.Response) => {
   const { nome, cpf, email, telefone, endereco }: IUser = request.body
   const { rua, numero, bairro, cidade } = endereco
 
@@ -147,7 +143,7 @@ app.patch("/user/:cpfParam", verifyJWT, async (request: express.Request, respons
   return response.status(200).json(alteredUser)
 })
 
-app.delete("/user/:cpfParam", verifyJWT, async (request: express.Request, response: express.Response) => {
+app.delete("/user/:cpfParam", verifyAuth, async (request: express.Request, response: express.Response) => {
   const { cpfParam } = request.params
 
   const deletedUser = await prisma.users.delete({
@@ -157,3 +153,9 @@ app.delete("/user/:cpfParam", verifyJWT, async (request: express.Request, respon
   return response.status(200).json(deletedUser)
 }
 )
+
+//All users
+app.get("/users", verifyAuth, async (request: express.Request, response: express.Response) => {
+  const users = await prisma.users.findMany()
+  return response.status(200).json(users)
+})
