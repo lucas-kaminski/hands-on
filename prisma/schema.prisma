@@ -1,0 +1,102 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Plants
+model plants {
+  id            Int      @id @default(autoincrement())
+  name          String
+  description   String
+  purchasePrice Float    @default(0.0)
+  createdAt     DateTime @default(now())
+
+  stock    stock_plants[]
+  purchase purchases[]
+}
+
+// model propagation {}
+
+model stock_plants {
+  plant_id       Int                @id @default(autoincrement())
+  status         status_stock_plant @default(A_venda)
+  origin         origin_stock_plant
+  estimatedValue Float
+  createdAt      DateTime           @default(now())
+
+  plant plants @relation(fields: [plant_id], references: [id])
+}
+
+enum origin_stock_plant {
+  Compra
+  Propagacao
+}
+
+enum status_stock_plant {
+  A_venda
+  Reservado
+  Vendida
+}
+
+// Cachepots
+model cachepots {
+  id            Int      @id @default(autoincrement())
+  color         String
+  size          String
+  description   String
+  purchasePrice Float
+  createdAt     DateTime @default(now())
+
+  stock_cachepots stock_cachepots[]
+  purchase        purchases[]
+}
+
+model stock_cachepots {
+  cachepot_id    Int                   @id
+  status         status_stock_cachepot @default(A_venda)
+  origin         origin_stock_cachepot
+  estimatedValue Float
+  createdAt      DateTime              @default(now())
+
+  cachepot cachepots @relation(fields: [cachepot_id], references: [id])
+}
+
+enum origin_stock_cachepot {
+  Compra
+  Propagacao
+}
+
+enum status_stock_cachepot {
+  A_venda
+  Reservado
+  Vendida
+}
+
+// Compras
+model purchases {
+  id           Int             @id @default(autoincrement())
+  plant_ids    Int?
+  cachepot_ids Int?
+  place        String
+  description  String?
+  obs          String?
+  value        Float
+  reason       reason_purchase
+  createdAt    DateTime        @default(now())
+
+  plants    plants[]    @relation(fields: [plant_ids], references: [id])
+  cachepots cachepots[] @relation(fields: [cachepot_ids], references: [id])
+}
+
+enum reason_purchase {
+  Estoque
+  Ferramentas
+  Investimento
+}
