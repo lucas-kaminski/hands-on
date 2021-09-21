@@ -12,26 +12,42 @@ generator client {
 
 // Plants
 model plants {
-  id            Int      @id @default(autoincrement())
-  name          String
-  description   String
-  purchasePrice Float    @default(0.0)
-  createdAt     DateTime @default(now())
+  id                Int              @id @default(autoincrement())
+  name              String
+  description       String?
+  collection        plant_collection
+  purchase_price    Float?           @default(0.0)
+  selling_min_price Float?           @default(0.0)
+  selling_max_price Float?           @default(0.0)
+  created_at        DateTime         @default(now())
 
-  stock    stock_plants[]
-  purchase purchases[]
+  stock       stock_plants[]
+  purchase    purchases[]
+  propagation propagation[]
 }
 
-// model propagation {}
+model propagation {
+  id         Int      @id @default(autoincrement())
+  plant_id   Int
+  obs        String
+  created_at DateTime @default(now())
+
+  mother_plant plants @relation(fields: [plant_id], references: [id])
+}
 
 model stock_plants {
   plant_id       Int                @id @default(autoincrement())
   status         status_stock_plant @default(A_venda)
   origin         origin_stock_plant
   estimatedValue Float
-  createdAt      DateTime           @default(now())
+  created_at     DateTime           @default(now())
 
   plant plants @relation(fields: [plant_id], references: [id])
+}
+
+enum plant_collection {
+  Pessoal
+  Loja
 }
 
 enum origin_stock_plant {
@@ -52,7 +68,7 @@ model cachepots {
   size          String
   description   String
   purchasePrice Float
-  createdAt     DateTime @default(now())
+  created_at    DateTime @default(now())
 
   stock_cachepots stock_cachepots[]
   purchase        purchases[]
@@ -63,7 +79,7 @@ model stock_cachepots {
   status         status_stock_cachepot @default(A_venda)
   origin         origin_stock_cachepot
   estimatedValue Float
-  createdAt      DateTime              @default(now())
+  created_at     DateTime              @default(now())
 
   cachepot cachepots @relation(fields: [cachepot_id], references: [id])
 }
@@ -89,7 +105,7 @@ model purchases {
   obs          String?
   value        Float
   reason       reason_purchase
-  createdAt    DateTime        @default(now())
+  created_at   DateTime        @default(now())
 
   plants    plants[]    @relation(fields: [plant_ids], references: [id])
   cachepots cachepots[] @relation(fields: [cachepot_ids], references: [id])

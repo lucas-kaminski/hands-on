@@ -5,7 +5,7 @@
     "sourceMap": true,
     "outDir": "./dist",
     "rootDir": "./src",
-    "baseUrl": ".",
+    "baseUrl": "./",
     "strict": true,
     "typeRoots": [
       "./src/@types",
