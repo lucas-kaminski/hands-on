@@ -1,0 +1,14 @@
+_id: env_cdc12e1e4d0b43ecac6940d5a39b90ca
+type: Environment
+parentId: env_8699b21dfcf872a98d1e16ef8cf118288ca8a159
+modified: 1633643024793
+created: 1633642986139
+name: Localhost
+data:
+  SERVER: http://localhost:3333
+dataPropertyOrder:
+  "&":
+    - SERVER
+color: "#7d69cb"
+isPrivate: false
+metaSortKey: 1633642986139
