@@ -1,6 +1,9 @@
 import 'express-async-errors'
 import express, { json } from 'express'
 
+import cors from 'cors'
+
+import rCachepots from './routes/cachepots.routes'
 import rPlants from './routes/plants.routes'
 import rStock from './routes/stock.routes'
 
@@ -8,10 +11,7 @@ const app = express()
 
 app
   .use(json())
-  .use((req, res, next) => {
-    console.log(req.query)
-    next()
-  })
+  .use(cors())
 
   .use((req, res, next) => {
     console.log(' + ', req.path, '[', req.method, ']')
@@ -20,7 +20,11 @@ app
   })
 
   .use('/plants', rPlants)
+<<<<<<< HEAD
   .use('/stock', rStock)
+=======
+  .use('/cachepots', rCachepots)
+>>>>>>> 56d6a393608d63a6aaf1271b07f79d6a10b82ceb
 
   .get('/', async (_, res) => {
     return res.json('Server amago!')
