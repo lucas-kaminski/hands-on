@@ -1,29 +1,34 @@
-import { PrismaClient, plant_collection } from '@prisma/client'
+import { PrismaClient, plant_collection, origin_plant } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
 interface IRequest {
   name?: string
   collection?: plant_collection
+  propagation_id?: number
   description?: string
-  purchase_price?: number
+  origin?: string
 }
 
 class CreateNewPlantService {
-  async run({ description, name, purchase_price, collection }: IRequest) {
-    console.log(description, name, purchase_price, collection)
+  async run({ description, name, collection, propagation_id, origin }: IRequest) {
     if (!name || !description || !collection) {
       throw new Error('Plant name is required')
     }
 
+    const formattedOrigin = (propagation_id && 'Propagacao') || origin
+
     const plant = await prisma.plants.create({
       data: {
-        description,
         collection,
         name,
-        purchase_price,
-        selling_min_price: (purchase_price && purchase_price * (1 + 0.15)) ?? 0,
-        selling_max_price: (purchase_price && purchase_price * (1 + 0.3)) || 0,
+        origin: formattedOrigin as origin_plant,
+        description,
+        propagation: propagation_id
+          ? {
+              create: { mother_plant: { connect: { id: propagation_id } } },
+            }
+          : undefined,
       },
     })
 

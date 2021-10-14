@@ -12,35 +12,36 @@ generator client {
 
 // Plants
 model plants {
-  id                Int              @id @default(autoincrement())
-  name              String
-  description       String?
-  collection        plant_collection
-  purchase_price    Float?           @default(0.0)
-  selling_min_price Float?           @default(0.0)
-  selling_max_price Float?           @default(0.0)
-  created_at        DateTime         @default(now())
+  id             Int              @id @default(autoincrement())
+  name           String
+  description    String?
+  collection     plant_collection
+  origin         origin_plant     @default(Indefinido)
+  purchase_price Float            @default(0.0)
+  status         status_plant     @default(Em_Posse)
+  created_at     DateTime         @default(now())
 
   stock       stock_plants[]
   purchase    purchases[]
-  propagation propagation[]
+  propagation propagation[]  @relation("plant_relation")
+  mother      propagation[]  @relation("mother_relation")
 }
 
 model propagation {
-  id         Int      @id @default(autoincrement())
-  plant_id   Int
-  obs        String
-  created_at DateTime @default(now())
+  plant_id        Int      @id
+  mother_plant_id Int
+  obs             String?
+  created_at      DateTime @default(now())
 
-  mother_plant plants @relation(fields: [plant_id], references: [id])
+  plant        plants @relation("plant_relation", fields: [plant_id], references: [id])
+  mother_plant plants @relation("mother_relation", fields: [mother_plant_id], references: [id])
 }
 
 model stock_plants {
-  plant_id       Int                @id @default(autoincrement())
-  status         status_stock_plant @default(A_venda)
-  origin         origin_stock_plant
-  estimatedValue Float
-  created_at     DateTime           @default(now())
+  plant_id              Int      @id
+  recommended_min_price Float?
+  recommended_max_price Float?
+  created_at            DateTime @default(now())
 
   plant plants @relation(fields: [plant_id], references: [id])
 }
@@ -50,15 +51,17 @@ enum plant_collection {
   Loja
 }
 
-enum origin_stock_plant {
-  Compra
-  Propagacao
-}
-
-enum status_stock_plant {
+enum status_plant {
+  Em_Posse
   A_venda
   Reservado
   Vendida
+}
+
+enum origin_plant {
+  Compra
+  Propagacao
+  Indefinido
 }
 
 // Cachepots

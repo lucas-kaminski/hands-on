@@ -2,20 +2,31 @@
 CREATE TABLE `plants` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NOT NULL,
-    `purchasePrice` DOUBLE NOT NULL DEFAULT 0.0,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `description` VARCHAR(191),
+    `collection` ENUM('Pessoal', 'Loja') NOT NULL,
+    `origin` ENUM('Compra', 'Propagacao') NOT NULL,
+    `purchase_price` DOUBLE NOT NULL DEFAULT 0.0,
+    `status` ENUM('Em_Posse', 'A_venda', 'Reservado', 'Vendida') NOT NULL DEFAULT 'Em_Posse',
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `propagation` (
+    `plant_id` INTEGER NOT NULL,
+    `obs` VARCHAR(191) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`plant_id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `stock_plants` (
-    `plant_id` INTEGER NOT NULL AUTO_INCREMENT,
-    `status` ENUM('A_venda', 'Reservado', 'Vendida') NOT NULL DEFAULT 'A_venda',
-    `origin` ENUM('Compra', 'Propagacao') NOT NULL,
-    `estimatedValue` DOUBLE NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `plant_id` INTEGER NOT NULL,
+    `recommended_min_price` DOUBLE,
+    `recommended_max_price` DOUBLE,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`plant_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -27,7 +38,7 @@ CREATE TABLE `cachepots` (
     `size` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NOT NULL,
     `purchasePrice` DOUBLE NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -37,8 +48,8 @@ CREATE TABLE `stock_cachepots` (
     `cachepot_id` INTEGER NOT NULL,
     `status` ENUM('A_venda', 'Reservado', 'Vendida') NOT NULL DEFAULT 'A_venda',
     `origin` ENUM('Compra', 'Propagacao') NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `estimatedValue` DOUBLE NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`cachepot_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -53,7 +64,7 @@ CREATE TABLE `purchases` (
     `obs` VARCHAR(191),
     `value` DOUBLE NOT NULL,
     `reason` ENUM('Estoque', 'Ferramentas', 'Investimento') NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -75,6 +86,9 @@ CREATE TABLE `_cachepotsTopurchases` (
     UNIQUE INDEX `_cachepotsTopurchases_AB_unique`(`A`, `B`),
     INDEX `_cachepotsTopurchases_B_index`(`B`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `propagation` ADD CONSTRAINT `propagation_plant_id_fkey` FOREIGN KEY (`plant_id`) REFERENCES `plants`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `stock_plants` ADD CONSTRAINT `stock_plants_plant_id_fkey` FOREIGN KEY (`plant_id`) REFERENCES `plants`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

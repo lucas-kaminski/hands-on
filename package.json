@@ -7,7 +7,7 @@
     "lint": "eslint . --ext .ts,.js --fix",
     "docker": "docker start mysql redis",
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify  src/server.ts",
-    "migrate": "yarn prisma migrate dev"
+    "migrate": "yarn prisma migrate reset --force --skip-seed && yarn prisma migrate dev"
   },
   "dependencies": {
     "@prisma/client": "^3.0.2",

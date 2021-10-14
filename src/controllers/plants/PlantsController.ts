@@ -18,11 +18,12 @@ class PlantsController {
   }
 
   async create(req: Request, resp: Response) {
-    const { name, description, purchase_price, collection } = req.query
+    const { name, description, propagation_id, collection } = req.query
+    console.log(name, description, propagation_id, collection)
     const plant = await createPlant.run({
       name: name as string,
       description: description as string,
-      purchase_price: Number((purchase_price as string).replace(',', '.')),
+      propagation_id: Number(propagation_id),
       collection: collection as plant_collection,
     })
     return resp.status(200).json(plant)
