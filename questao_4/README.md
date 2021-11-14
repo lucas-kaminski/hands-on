@@ -14,9 +14,9 @@ Disponível no seguinte link:
 
 ## Comentários pertinentes:
 
-Para a realização dos testes, optei por utilizar um framework chamado "MinUnit", dada a sua fácil implementação a partir do arquivo estático "minunit.h" e pouco atrito para a construção dos suites.
+Para a realização dos testes, foi utilizado o framework chamado "MinUnit", dada a sua fácil implementação a partir do arquivo estático "minunit.h" e pouco atrito para a construção dos suits de teste.
 
-Como está disponibilizado o código em vários meios (github e GDB), optei por copiar e colar a função desenvolvida na questão anterior ao invés de importar.
+Como está disponibilizado o código em vários meios (github e GDB), optei por somente copiar e colar a função desenvolvida na questão anterior ao invés de importar.
 
 No desenvolvimento dos testes, optei por construir dois suits, onde:
 

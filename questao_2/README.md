@@ -18,4 +18,6 @@ Disponível no seguinte link:
 
 ## Comentários pertinentes:
 
-Devido a instrução de se utilizar a menor quantidade de linhas, optei por utilizar uma variável auxiliar para apontar a string formada atráves da função _sprintf_ (neste caso somente o valor de i), para que assim, consiga em somente uma linha, realizar o print da informação conforme as regras impostas sem conflito de tipo de dado.
+Devido a instrução de se utilizar a menor quantidade de linhas, optei por contruir uma variável auxiliar em cada loop, para apontar a string formada atráves da função _sprintf_ (neste caso somente o valor de i), e assim, consiga em somente uma linha, realizar o print da informação conforme as regras impostas sem conflito de tipo de dado.
+
+Como a perfomance diferencia em pouco para diferentes abordagens nesse caso, optei por uma maior legibilidade do código

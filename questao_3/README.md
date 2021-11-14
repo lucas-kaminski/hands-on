@@ -50,11 +50,13 @@ Disponível no seguinte link:
 
 ## Comentários pertinentes:
 
-Como especificado como somente strings com a formatação ascii[a-z], optei por utilizar o scanf, onde será pego a string de até no máximo caracteres definido e caso tenha algum caracter como espaço, será definido o final da string.
+Dada a especificação de se inputar somente strings com a formatação ascii[a-z], foi utilizado o scanf, onde será pego a string de até no máximo caracteres definido e caso tenha algum caracter como espaço, será definido o final da string.
+
+Em busca de um design fluído, foi realizado uma declaração simples das funções no mesmo arquivo, além de realizar um gerenciamento dos dados em cada operação (este demonstrado essencial após os testes da questao_4)
 
 Optei por definir uma função que verifica o valor de cada string inserida para validar se todos os caracteres correspodem ao requisitado, e caso não, aponta o erro e para a aplicação
 
-Para a função ConcatERemove, optei por uma abordagem pensada na seguinte lógica:
+Para a função ConcatERemove, foi realizado a abordagem pensada lógica que busca uma maior clareza das ações, onde:
 
 - Primeiramente, é analisado a similaridade entre a string t e a string s, identificando até qual index possuem caracteres iguais.
 
