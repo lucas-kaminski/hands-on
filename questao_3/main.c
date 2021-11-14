@@ -10,10 +10,10 @@
 #include <ctype.h>
 #define MAX_STRING_SIZE 100
 
-char *ConcatERemove(char *t, char *s, int k)
+char *ConcatERemove(char t[MAX_STRING_SIZE], char s[MAX_STRING_SIZE], int k)
 {
   int acoes = 0;
-  char aux[MAX_STRING_SIZE];
+  char aux[MAX_STRING_SIZE] = "";
 
   int iT = 0;
   int iS = 0;
@@ -25,7 +25,7 @@ char *ConcatERemove(char *t, char *s, int k)
     iS++;
   };
 
-  for (auxIndex; auxIndex < iT; auxIndex++)
+  for (auxIndex; auxIndex <= iT; auxIndex++)
   {
     aux[auxIndex] = t[auxIndex];
   }
@@ -38,14 +38,13 @@ char *ConcatERemove(char *t, char *s, int k)
     auxIndex++;
     acoes++;
   }
-
-  if (acoes > k)
+  if (acoes <= k && strlen(s) == strlen(aux))
   {
-    return "nao";
+    return "sim";
   }
   else
   {
-    return "sim";
+    return "nao";
   }
 }
 
