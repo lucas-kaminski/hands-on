@@ -1,11 +1,4 @@
-// Considere uma string contendo caracteres minúsculos do alfabeto português. Você pode executar dois tipos de operações nesta string:
-//   1. Concatenar um caractere minúsculo do alfabeto português ao final da string.
-//   2. Remover o último caractere da string. Se a string estiver vazia, ela permanecerá vazia.
-// Dado um número inteiro k e duas strings s e t, determine se você consegue converter s em t através de exatamente k operações descritas acima sobre s.
-//   Se possível, o programa imprime 'sim', do contrário imprime 'não'.
-
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #define MAX_STRING_SIZE 100
@@ -15,29 +8,33 @@ char *ConcatERemove(char t[MAX_STRING_SIZE], char s[MAX_STRING_SIZE], int k)
   int acoes = 0;
   char aux[MAX_STRING_SIZE] = "";
 
-  int iT = 0;
-  int iS = 0;
-  int auxIndex = 0;
+  int indexT = 0;
+  int indexS = 0;
+  int indexAux = 0;
 
-  while (t[iT] == s[iS])
+  while (t[indexT] == s[indexS])
   {
-    iT++;
-    iS++;
+    indexT++;
+    indexS++;
   };
 
-  for (auxIndex; auxIndex <= iT; auxIndex++)
+  for (indexAux; indexAux <= indexT; indexAux++)
   {
-    aux[auxIndex] = t[auxIndex];
+    aux[indexAux] = t[indexAux];
   }
 
-  acoes = strlen(t) - strlen(aux);
-
-  for (int j = iS; j < strlen(s); j++)
+  for (int auxAcoes = indexAux; auxAcoes < strlen(t); auxAcoes++)
   {
-    aux[auxIndex - 1] = s[j];
-    auxIndex++;
     acoes++;
   }
+
+  for (int j = indexS; j < strlen(s); j++)
+  {
+    aux[indexAux - 1] = s[j];
+    indexAux++;
+    acoes++;
+  }
+
   if (acoes <= k && strlen(s) == strlen(aux))
   {
     return "sim";
@@ -48,7 +45,7 @@ char *ConcatERemove(char t[MAX_STRING_SIZE], char s[MAX_STRING_SIZE], int k)
   }
 }
 
-int validateString(char *string)
+int validacaoDaString(char *string)
 {
   int i;
   for (i = 0; i < strlen(string); i++)
@@ -71,7 +68,7 @@ int main()
   scanf("%s", s);
   scanf("%d", &k);
 
-  if (validateString(t) == 1 || validateString(s) == 1)
+  if (validacaoDaString(t) == 1 || validacaoDaString(s) == 1)
   {
     printf("\nPalavras invalidas\n");
     return 1;

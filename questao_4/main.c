@@ -1,40 +1,42 @@
-
 #include <stdio.h>
 #include <string.h>
 #include "minunit.h"
 
-#define MAX_STRING_SIZE 100
-
 int tests_run = 0;
 
+#define MAX_STRING_SIZE 100
 char *ConcatERemove(char t[MAX_STRING_SIZE], char s[MAX_STRING_SIZE], int k)
 {
   int acoes = 0;
   char aux[MAX_STRING_SIZE] = "";
 
-  int iT = 0;
-  int iS = 0;
-  int auxIndex = 0;
+  int indexT = 0;
+  int indexS = 0;
+  int indexAux = 0;
 
-  while (t[iT] == s[iS])
+  while (t[indexT] == s[indexS])
   {
-    iT++;
-    iS++;
+    indexT++;
+    indexS++;
   };
 
-  for (auxIndex; auxIndex <= iT; auxIndex++)
+  for (indexAux; indexAux <= indexT; indexAux++)
   {
-    aux[auxIndex] = t[auxIndex];
+    aux[indexAux] = t[indexAux];
   }
 
-  acoes = strlen(t) - strlen(aux);
-
-  for (int j = iS; j < strlen(s); j++)
+  for (int auxAcoes = indexAux; auxAcoes < strlen(t); auxAcoes++)
   {
-    aux[auxIndex - 1] = s[j];
-    auxIndex++;
     acoes++;
   }
+
+  for (int j = indexS; j < strlen(s); j++)
+  {
+    aux[indexAux - 1] = s[j];
+    indexAux++;
+    acoes++;
+  }
+
   if (acoes <= k && strlen(s) == strlen(aux))
   {
     return "sim";

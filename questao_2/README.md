@@ -1,4 +1,4 @@
-### Descrição do problema:
+## Descrição do problema:
 
 Escreva um programa em linguagem C/C++ ou Java que:
 Imprime cada número de 1 até 100 em uma nova linha.
@@ -9,12 +9,13 @@ Imprime cada número de 1 até 100 em uma nova linha.
 
 A sua solução deverá ser utilizando o menor número de linhas de código possível porém deve produzir um código eficiente.
 
-### Validação do problema:
+## Validação do problema:
 
 Para o problema, pelo fato de não ter nenhum input de dados, é possível validar somente rodando o código.
+
 Disponível no seguinte link:
-[Online GBD](https://onlinegdb.com/1d-0iWt-A)
+[Online GDB](https://onlinegdb.com/pPc6wMTJ3)
 
-### Comentários pertinentes:
+## Comentários pertinentes:
 
-Devido a instrução de se utilizar a menor quantidade de linhas, optei por utilizar uma variável auxiliar para apontar a string formada atráves da função _sprintf_ (neste caso somente o valor de i), para que assim, consiga em somente uma linha, realizar o print de uma string conforme as regras impostas sem conflito de tipo de dado.
+Devido a instrução de se utilizar a menor quantidade de linhas, optei por utilizar uma variável auxiliar para apontar a string formada atráves da função _sprintf_ (neste caso somente o valor de i), para que assim, consiga em somente uma linha, realizar o print da informação conforme as regras impostas sem conflito de tipo de dado.

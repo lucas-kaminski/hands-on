@@ -1,7 +1,10 @@
+DROP TABLE IF EXISTS Alunos;
+DROP TABLE IF EXISTS Notas;
+
 CREATE TABLE Alunos (
-     id INT PRIMARY KEY,
-     nome VARCHAR NOT NULL,
-     valor INT DEFAULT 0
+  id INT PRIMARY KEY,
+  nome VARCHAR NOT NULL,
+  valor INT DEFAULT 0
 );
 
 CREATE TABLE Notas(
@@ -36,6 +39,3 @@ SELECT CASE WHEN nota < 8 then NULL else nome END as nome_, CASE WHEN valor BETW
 FROM Notas, Alunos
 WHERE (nota_ IS NOT NULL)
 ORDER by nota DESC, valor DESC, nome ASC;
-
-DROP TABLE Alunos;
-DROP TABLE Notas;

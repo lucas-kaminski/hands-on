@@ -3,7 +3,7 @@
 int main()
 {
   int i;
-  char *str;
+  char str[6];
 
   for (i = 0; i < 100; i++)
   {
