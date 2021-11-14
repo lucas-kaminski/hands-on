@@ -1,6 +1,20 @@
-Considere uma string contendo caracteres minúsculos do alfabeto português. Você pode executar dois tipos de operações nesta string:
+### Descrição do problema:
 
-1. Concatenar um caractere minúsculo do alfabeto português ao final da string.
-2. Remover o último caractere da string. Se a string estiver vazia, ela permanecerá vazia.
+Escreva um programa em linguagem C/C++ ou Java que:
+Imprime cada número de 1 até 100 em uma nova linha.
 
-Dado um número inteiro k e duas strings s e t, determine se você consegue converter s em t através de exatamente k operações descritas acima sobre s. Se possível, o programa imprime 'sim', do contrário imprime 'não'.
+- Para cada múltiplo de 3, imprima "Foo", ao invés do número.
+- Para cada múltiplo de 5, imprima "Baa", ao invés do número.
+- Para números múltiplos simultaneamente de 3 e 5, imprima "FooBaa", ao invés do número.
+
+A sua solução deverá ser utilizando o menor número de linhas de código possível porém deve produzir um código eficiente.
+
+### Validação do problema:
+
+Para o problema, pelo fato de não ter nenhum input de dados, é possível validar somente rodando o código.
+Disponível no seguinte link:
+[Online GBD](https://onlinegdb.com/1d-0iWt-A)
+
+### Comentários pertinentes:
+
+Devido a instrução de se utilizar a menor quantidade de linhas, optei por utilizar uma variável auxiliar para apontar a string formada atráves da função _sprintf_ (neste caso somente o valor de i), para que assim, consiga em somente uma linha, realizar o print de uma string conforme as regras impostas sem conflito de tipo de dado.
