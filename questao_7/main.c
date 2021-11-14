@@ -12,7 +12,7 @@ int tamanho(char *str)
 int main()
 {
   char str[100];
-  gets(str);
+  scanf("%s", str);
   printf("O tamanho de '%s' e %d", str, tamanho(str));
   return 0;
 }
