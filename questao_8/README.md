@@ -14,7 +14,7 @@ Escreva uma consulta SQL que selecione o nome de todos os animais de estimação
 
 ## Validação do problema:
 
-Para o problema, optei pela mesma abordagem da questao cinco, onde, em cada execução, será excluído se existir, criado e alimentado para realizar a consulta.
+Para o problema, optei pela mesma abordagem da questão cinco, onde, em cada execução, será excluído as tabelas se existirem, as criada novamente e alimentadas para realizar a consulta requisitada.
 
 Neste caso, como não houve dados de exemplo, arbitrei alguns a fim de uma melhor exemplificação do caso.
 

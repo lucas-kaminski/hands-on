@@ -18,7 +18,7 @@ Para a realização dos testes, foi utilizado o framework chamado "MinUnit", dad
 
 Como está disponibilizado o código em vários meios (github e GDB), optei por somente copiar e colar a função desenvolvida na questão anterior ao invés de importar.
 
-No desenvolvimento dos testes, optei por construir dois suits, onde:
+No desenvolvimento dos testes, é construído dois suits, onde:
 
 - No primeiro será testado todos os exemplos dados durante a explicação da questão no formulário de envio
 - No segundo será testado valores arbitrados por mim

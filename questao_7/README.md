@@ -4,11 +4,11 @@ Faça um programa em linguagem C/C++ ou Java que calcule o tamanho de um string 
 
 ## Validação do problema:
 
-Para o problema, é requisitado ao usuário unicamente a string para calculo, após inserir, é impresso na tela a informação de qual a frase e seu tamanho.
+Para o problema, é requisitado ao usuário unicamente a string para cálculo, após inserir, é impresso na tela a informação de qual a frase e seu tamanho.
 
 Disponível no seguinte link:
 [Online GDB](https://onlinegdb.com/lPD5aeAYF)
 
 ## Comentários pertinentes:
 
-Optei por utilizar o scanf(), pois, como não foi definido um escopo de input, optei por abranger strings de palavras unicas, sem espaços
+Optei por utilizar o scanf(), pois, como não foi definido um escopo de input, foi escolhido abranger strings de palavras unicas, sem espaços

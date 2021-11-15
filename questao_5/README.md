@@ -33,7 +33,7 @@ Observação: Imprima "NULL" no nome se a nota for inferior a 8.
 
 ## Validação do problema:
 
-Para o problema, desenvolvi um código que em toda compilação excluirá as tabelas (se existirem), as criará novamente, alimentará conforme o exemplo dado e fara a consulta.
+Para o problema, desenvolvi um código que em toda compilação excluirá as tabelas (se existirem), as criará novamente, alimentará conforme o exemplo dado e fará a consulta.
 
 Disponível no seguinte link:
 [SQLite](https://sqliteonline.com/#share=520cee2428fda75cc50009d0a6c666b7cc8ca1a2dc46b29e1f1704df8e274c8d)
