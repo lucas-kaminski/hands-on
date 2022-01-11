@@ -26,7 +26,7 @@ intranetRoutes.get('/getUCShutdownHistory', (req, res) => {
   const { UC } = req.query
 
   if (isValidUC(UC)) {
-    // QUESTION: O periodo é de min 12 meses, deve ser declarado como parâmetro tipo DEFINE de C++ ?
+    // QUESTION: O período é de min 12 meses, deve ser declarado como parâmetro tipo DEFINE de C++ ?
     // const months = 12
 
     // TODO: get data from database
@@ -64,7 +64,6 @@ intranetRoutes.get('/getServiceState', (req, res) => {
     return false
   }
   delete aux
-
 
   return res.json({ teste: UC })
 })
