@@ -67,27 +67,27 @@
   <!-- PORT TYPES: defines the complete communication operation (one way/round trip) -->
     <!-- The operation name must be the same as the one specified in the service object -->
   <wsdl:portType name="CreateUserPortType">
-    <wsdl:operation name="CreateUserOperation">
+    <wsdl:operation name="CreateUser">
       <wsdl:input message="tns:CreateUserRequest"/>
       <wsdl:output message="tns:CreateUserResponse"/>
     </wsdl:operation>
   </wsdl:portType>
     
   <wsdl:portType name="ReadUserPortType">
-    <wsdl:operation name="ReadUserOperation">
+    <wsdl:operation name="ReadUser">
       <wsdl:input message="tns:ReadUserRequest"/>
       <wsdl:output message="tns:ReadUserResponse"/>
     </wsdl:operation>
   </wsdl:portType>
     
   <wsdl:portType name="UpdateUserPortType">
-    <wsdl:operation name="UpdateUserOperation">
+    <wsdl:operation name="UpdateUser">
       <wsdl:input message="tns:UpdateUserRequest"/>
     </wsdl:operation>
   </wsdl:portType>
 
   <wsdl:portType name="DeleteUserPortType">
-    <wsdl:operation name="DeleteUserOperation">
+    <wsdl:operation name="DeleteUser">
       <wsdl:input message="tns:DeleteUserRequest"/>
       <wsdl:output message="tns:DeleteUserResponse"/>
     </wsdl:operation>
@@ -96,7 +96,7 @@
   <!-- BINDING: provides details on how a portType operation will actually be transmitted -->
   <wsdl:binding name="CreateUserSoapBinding" type="tns:CreateUserPortType">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
-    <wsdl:operation name="CreateUserOperation">
+    <wsdl:operation name="CreateUser">
       <soap:operation soapAction="\" style="document"/>
       <wsdl:input>
         <soap:body use="literal"/>
@@ -109,7 +109,7 @@
 
   <wsdl:binding name="ReadUserSoapBinding" type="tns:ReadUserPortType">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
-    <wsdl:operation name="ReadUserOperation">
+    <wsdl:operation name="ReadUser">
       <soap:operation soapAction="\" style="document"/>
       <wsdl:input>
         <soap:body use="literal"/>
@@ -122,7 +122,7 @@
 
   <wsdl:binding name="UpdateUserSoapBinding" type="tns:UpdateUserPortType">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
-    <wsdl:operation name="UpdateUserOperation">
+    <wsdl:operation name="UpdateUser">
       <soap:operation soapAction="\" style="document"/>
       <wsdl:input>
         <soap:body use="literal"/>
@@ -132,7 +132,7 @@
 
   <wsdl:binding name="DeleteUserSoapBinding" type="tns:DeleteUserPortType">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
-    <wsdl:operation name="DeleteUserOperation">
+    <wsdl:operation name="DeleteUser">
       <soap:operation soapAction="\" style="document"/>
       <wsdl:input>
         <soap:body use="literal"/>
@@ -146,25 +146,25 @@
   <!-- SERVICE:  -->
   <wsdl:service name="CreateUserService">
     <wsdl:port name="CreateUserServiceSoapPort" binding="tns:CreateUserSoapBinding">
-      <soap:address location="http://localhost:3000/user"/>
+      <soap:address location="http://localhost:3000/SOAP/user"/>
     </wsdl:port>
   </wsdl:service>
 
   <wsdl:service name="ReadUserService">
     <wsdl:port name="ReadUserServiceSoapPort" binding="tns:ReadUserSoapBinding">
-      <soap:address location="http://localhost:3000/user"/>
+      <soap:address location="http://localhost:3000/SOAP/user"/>
     </wsdl:port>
   </wsdl:service>
 
   <wsdl:service name="UpdateUserService">
     <wsdl:port name="UpdateUserServiceSoapPort" binding="tns:UpdateUserSoapBinding">
-      <soap:address location="http://localhost:3000/user"/>
+      <soap:address location="http://localhost:3000/SOAP/user"/>
     </wsdl:port>
   </wsdl:service>
 
   <wsdl:service name="DeleteUserService">
     <wsdl:port name="DeleteUserServiceSoapPort" binding="tns:DeleteUserSoapBinding">
-      <soap:address location="http://localhost:3000/user"/>
+      <soap:address location="http://localhost:3000/SOAP/user"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

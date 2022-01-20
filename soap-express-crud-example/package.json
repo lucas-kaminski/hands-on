@@ -5,10 +5,11 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.2",
+    "nodemon": "^2.0.15",
     "soap": "^0.43.0"
   },
   "scripts": {
-    "start": "node server.js",
-    "client": "node client.js"
+    "start": "nodemon src/server.js",
+    "client": "node src/client.js"
   }
 }

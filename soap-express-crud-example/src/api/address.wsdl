@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <definitions> must be the root of the WSDL document -->
+<!-- Name how the document is called -->
+<!-- The targetNamespace is a convention of XML Schema that enables the WSDL document to refer to itself. -->
+<!-- tempuri.org is the test default namespace URI used by Microsoft development products, like Visual Studio. -->
+<wsdl:definitions 
+  name="soap-express-crud-example-address"
+  targetNamespace="http://tempuri.org/" 
+  xmlns:tns="http://tempuri.org/" 
+  xmlns:s="http://www.w3.org/2001/XMLSchema" 
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  >
+
+  <!-- WSDL TYPES: definition of the data types that are used in the web service -->
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+     <s:element name="GetAddressByCEPDataType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CEP" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+
+  <!-- MESSAGES: defines the data being exchanged between the service and client -->
+  <wsdl:message name="GetAddressByCEPRequest">
+    <wsdl:part name="parameters" element="tns:GetAddressByCEPDataType"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetAddressByCEPResponse">
+      <wsdl:part name="parameters" element="tns:GetAddressByCEPDataType"/>
+  </wsdl:message>
+
+  <!-- PORT TYPES: defines the complete communication operation (one way/round trip) -->
+    <!-- The operation name must be the same as the one specified in the service object -->
+  <wsdl:portType name="GetAddressByCEPPortType">
+    <wsdl:operation name="GetAddressByCEP">
+      <wsdl:input message="tns:GetAddressByCEPRequest"/>
+      <wsdl:output message="tns:GetAddressByCEPResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <!-- BINDING: provides details on how a portType operation will actually be transmitted -->
+  <wsdl:binding name="GetAddressByCEPSoapBinding" type="tns:GetAddressByCEPPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetAddressByCEP">
+      <soap:operation soapAction="\" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <!-- SERVICE:  -->
+  <wsdl:service name="GetAddressByCEPService">
+    <wsdl:port name="GetAddressByCEPServiceSoapPort" binding="tns:GetAddressByCEPSoapBinding">
+      <soap:address location="http://localhost:3000/SOAP/address"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

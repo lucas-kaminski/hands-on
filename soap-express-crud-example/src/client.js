@@ -1,11 +1,7 @@
 const soap = require('soap');
-const url = 'http://localhost:3000/user?wsdl';
 
-// Create client
-soap.createClient(url, function (err, client) {
-
-
-  client.CreateUserOperation({
+soap.createClient('http://localhost:3000/SOAP/user?wsdl', function (err, client) {
+  client.CreateUser({
     name: "Lucas",
     age: 21,
     email: "teste@teste.com"
@@ -17,7 +13,7 @@ soap.createClient(url, function (err, client) {
     }
   });
 
-  client.ReadUserOperation({
+  client.ReadUser({
     email: "teste@teste.com",
   }, function (err, result) {
     if (err) {
@@ -27,7 +23,7 @@ soap.createClient(url, function (err, client) {
     }
   });
 
-  client.UpdateUserOperation({
+  client.UpdateUser({
     name: "Lucas Kaminski",
     age: 22,
     email: "teste2@teste.com",
@@ -39,7 +35,7 @@ soap.createClient(url, function (err, client) {
     }
   });
 
-  client.DeleteUserOperation({
+  client.DeleteUser({
     email: "teste@teste.com",
   }, function (err, result) {
     if (err) {
@@ -49,3 +45,17 @@ soap.createClient(url, function (err, client) {
     }
   });
 });
+
+console.log('address')
+
+soap.createClient('http://localhost:3000/SOAP/address?wsdl', function (err, client) {
+  client.GetAddressByCEP({
+    cep: "80230130"
+  }, function (err, result) {
+    if (err) {
+      console.log('err')
+    } else {
+      console.log(result, '5');
+    }
+  });
+})
