@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lucas K.</title>
+    <link rel="stylesheet" href="css.css">
+</head>
+
+<body>
+    <div>
+    
+
+    <h1 id="exemplo">Alô alô</h1>
+    <h2 class="lista">a</h2>
+    <h2 class="lista">b</h2>
+    <h2 class="lista">c</h2>
+
+    <div id="mudar" class="preto">A ser mudado</div>
+    <button onclick="verde()">Verde</button> <!--on click chama a função-->
+    <button onclick="azul()">Azul</button>
+    <button onclick="vermelho()">Vermelho</button>
+    <input></input>
+    
+    <button onclick="trocar()">Trocar</button>
+
+    <br><br><br><br>
+    
+    <img id="imagem" src="./images/gato1.jpg" class="imagem" data-animal="gato1">
+    <button onclick="trocarImagem('gato1.jpg', 'gato1')">Gato 1</button>
+    <button onclick="trocarImagem('gato2.jpg', 'gato2')">Gato 2</button>
+    
+    <br><br><br><br><br>
+    
+    <div class="texto">
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+    </div>
+
+    <br><br><br>
+
+    <button id="ontop" class="none" onclick="subirTela()">Subir tela</button>
+
+    <br><br><br><br>
+
+    <button onclick="clicou()" class="evento">Botão</button>
+    <button onclick="this.innerHTML='Botão novo 2'" class="evento">Botão2</button>
+    <!--<h1 onmouseover="console.log('passou o mouse')" onmouseout="console.log('oi')">Mouse sobre mim</h1>-->
+    </div>
+
+    <input id="campo" onkeypress="digitou(event)" />
+
+    <br><br><br>
+
+    <aside>
+        <div id="menu-opener">
+            <img src='menu.jpg' width="36" onclick="menu()" />
+        </div>
+        <div id='menu-area'>
+            <ul>
+                <li>home</li>
+                <li>sobre</li>
+                <li>contato</li>
+            </ul>
+        </div>
+    </aside>
+
+    <br><br><br>
+
+    <div id="dia">"teste"</div>
+    
+    <br><br><br>
+    
+    <div id="demo"> </div>
+    <div id="demo2"> </div>
+    <div id="demo3"> </div>
+
+    <br><br><br>
+
+    <div class='timer' onmouseover="showTime()"> </div>
+    <button onclick="comecar()">Começar</button>
+    <button onclick="parar()">Parar</button>
+    
+    <br><br><br><br><br><br>
+
+    <button onclick="inserirPost()">Inserir Post</button>
+
+    <button onclick="loadPosts()">Carregar posts</button>
+
+    <div id='QuantidadePosts'> </div>
+    <div id='Posts'> </div>
+
+    <br><br><br><br><br><br>
+
+    <input type='file' multiple id='arquivo' />
+    <br>
+    <!--<input type='file' id='arquivo' />-->
+    <button onclick=enviar()>Enviar</button>
+    
+    <script src="modulo1/outputs.js"></script>
+    <script src="modulo1/variaveis.js"></script>
+    <script src="modulo2/DOM.js"></script> 
+    <script src="modulo2/manipular.js"></script> 
+    <script src="modulo2/dados_funcoes.js"></script>
+    <script src="modulo2/dimensionamento.js"></script>
+    <script src="modulo3/eventos.js"></script>
+    <script src="modulo3/arrays.js"></script>
+    <script src="modulo3/objects.js"></script>
+    <script src="modulo3/condicionais.js"></script>
+    <script src="modulo4/strings.js"></script>
+    <script src="modulo4/numbers.js"></script>
+    <script src="modulo4/arrays.js"></script>
+    <script src="modulo4/date.js"></script>
+    <script src="modulo4/math.js"></script>
+    <script src="modulo4/intervalos.js"></script>
+    <script src="modulo4/objects.js"></script>
+    <script src="modulo4/newsEC6.js"></script>
+    <script src="modulo5/sincronicidade.js"></script>
+
+</body>
+</html>
