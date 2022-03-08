@@ -1,0 +1,4 @@
+Toda linguagem compilada é instrução, não comando
+Toda instrução em Java termina com ;
+
+Funções em classes são chamadas de métodos
