@@ -1,0 +1,16 @@
+{
+  "_meta": {
+    "template_version": 0,
+    "exclude_metadata": false
+  },
+  "fixtures": [
+    {
+      "name": "invoice_pay",
+      "expected_error_type": "",
+      "path": "/v1/invoices/${invoice:id}/pay",
+      "method": "post",
+      "params": {}
+    }
+  ],
+  "env": null
+}

@@ -59,3 +59,27 @@ Propagar o commit pro heroku
 Log do deploy
 
 `heroku logs --tail`
+
+## Processo na Stripe
+
+Os produtos estão no banco e são sync na stripe com o rota do config (https://stripe.com/docs/products-prices/how-products-and-prices-work)
+
+Para cada produto vai ter um preço relacionado diretamente (https://stripe.com/docs/products-prices/manage-prices?dashboard-or-api=api)
+
+// TODO: ver se salva o price no banco tbm
+
+Quando o usuário vai no bot /pagamento, no cartão ou boleto, ao confirmar
+
+- Vai criar o usuário na Stripe e atualizar o id dele no banco
+
+- Devido a recorrência do produto, é criado uma subscription (https://stripe.com/docs/billing/subscriptions/overview)
+
+- Cria uma session de checkout pro cliente
+
+Caso o cliente pague com boleto, o webhook vai mandar um `checkout.session.completed` e vai ser registrado como VIP aguardando pagamento, quando receber o pagamento, vai enviar um `checkout.session.async_payment_succeeded` e vai ser registrado como VIP concluído
+
+Caso o cliente pague com cartão, o webhook vai mandar um `checkout.session.completed` e vai ser registrado como VIP concluído
+
+No pagamento da próxima fatura, exemplo no mes seguinte caso VIP MENSAL, o webhook vai enviar um `invoice.paid` e vai ser atualizado o cadastro VIP
+
+Caso o usuário cancele
