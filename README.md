@@ -1,4 +1,4 @@
-## Task original:
+## Primeira task:
 
 - [x] criar bot no node
 
@@ -7,6 +7,10 @@
 - [x] verificar no webhook.site se estão chegando as notificações (print WEBHOOK.png)
 
 - [x] heroku para hospedar sua aplicação (https://secure-fortress-69045.herokuapp.com/)
+
+## Segunda task:
+- [ ] Reproduzir o fluxo do https://t.me/Cryptointeliggencebot
+- [x] Settar a imagem como icon do bot (https://gizmodo.uol.com.br/wp-content/blogs.dir/8/files/2022/01/amecaroboengineeredarts-2.jpg)
 
 <br/>
 
@@ -36,9 +40,17 @@ O bot usado na empresa é hospedagem local ou do Telegram
 
 ## Save for later:
 
+Link do bot
+
+https://t.me/WTLLBot
+
 Documentação do bot no telegram
 
 https://core.telegram.org/bots/api
+
+https://core.telegram.org/bots/#inline-keyboards-and-on-the-fly-updating
+
+
 
 Propagar o commit pro heroku
 

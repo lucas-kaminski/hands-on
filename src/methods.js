@@ -8,10 +8,37 @@ const urlToken = 'https://api.telegram.org/bot' + process.env.TOKEN + '/'
 * Send a message to a chat
 * @param {string} chatId - The chat id of the chat to send the message to
 * @param {string} message - The message to be sent
+* @param {boolean} forceUserToReply - If the message should be answered by the user (default: false)
 */
 module.exports.sendMessage = (chatId, message) => {
   axios.post(urlToken + 'sendMessage', {
     chat_id: chatId,
+    text: message,
+  })
+}
+
+/*
+
+*/
+module.exports.sendMessageWithButtons = (chatId, message, buttons, keyboard) => {
+  axios.post(urlToken + 'sendMessage', {
+    chat_id: chatId,
+    text: message,
+    reply_markup: {
+      inline_keyboard: buttons
+    }
+  })
+}
+
+
+/*
+  Update a message
+  aa
+*/
+module.exports.editMessage = (chatId, messageId, message) => {
+  axios.post(urlToken + 'editMessageText', {
+    chat_id: chatId,
+    message_id: messageId,
     text: message
   })
 }

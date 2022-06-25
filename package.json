@@ -1,11 +1,13 @@
 {
-  "name": "desafio_WTLL",
+  "name": "desafioWTLL",
   "version": "1.0.0",
   "main": "./src/index.js",
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "deploy": "git commit -am \"deploy\" && git push heroku HEAD:master",
+    "log": "heroku logs --tail"
   },
   "dependencies": {
     "axios": "^0.27.2",
