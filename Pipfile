@@ -6,6 +6,10 @@ name = "my-money"
 [packages]
 flask = "*"
 python-dotenv = "*"
+mysql-connector-python = "*"
+
+[scripts]
+scripts = "python scripts/executer.py"
 
 [dev-packages]
 black = "*"
