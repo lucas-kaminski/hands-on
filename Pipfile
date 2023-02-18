@@ -1,0 +1,13 @@
+[[source]]
+url = ""
+verify_ssl = true
+name = "my-money"
+
+[packages]
+flask = "*"
+
+[dev-packages]
+black = "*"
+
+[requires]
+python_version = "3"
