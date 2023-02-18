@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "41c641cef460e52aa795a1de6a10b8061d91828d606ca4a1e9a22def0a6f7c2f"
+            "sha256": "bba343e1f049375cbff0dcc7dfb1c9aa4fc317a201979ac0a4f6f3a6f7881e32"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -9,7 +9,7 @@
         },
         "sources": [
             {
-                "name": "pypi",
+                "name": "my-money",
                 "url": "https://pypi.org/simple",
                 "verify_ssl": true
             }
@@ -37,7 +37,7 @@
                 "sha256:7eb373984bf1c770023fce9db164ed0c3353cd0b53f130f4693da0ca756a2e6d",
                 "sha256:c0bec9477df1cb867e5a67c9e1ab758de9cb4a3e52dd70681f59fa40a62b3f2d"
             ],
-            "index": "pypi",
+            "index": "my-money",
             "version": "==2.2.3"
         },
         "itsdangerous": {
@@ -112,6 +112,14 @@
             "markers": "python_version >= '3.7'",
             "version": "==2.1.2"
         },
+        "python-dotenv": {
+            "hashes": [
+                "sha256:1c93de8f636cde3ce377292818d0e440b6e45a82f215c3744979151fa8151c49",
+                "sha256:41e12e0318bebc859fcc4d97d4db8d20ad21721a6aa5047dd59f090391cb549a"
+            ],
+            "index": "my-money",
+            "version": "==0.21.1"
+        },
         "werkzeug": {
             "hashes": [
                 "sha256:2e1ccc9417d4da358b9de6f174e3ac094391ea1d4fbef2d667865d819dfd0afe",
@@ -150,7 +158,7 @@
                 "sha256:c91dfc2c2a4e50df0026f88d2215e166616e0c80e86004d0003ece0488db2739",
                 "sha256:e6663f91b6feca5d06f2ccd49a10f254f9298cc1f7f49c46e498a0771b507104"
             ],
-            "index": "pypi",
+            "index": "my-money",
             "version": "==23.1.0"
         },
         "click": {

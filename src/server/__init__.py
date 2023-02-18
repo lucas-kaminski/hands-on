@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 
 
@@ -7,4 +8,5 @@ class Server:
         self.app.config["UPLOAD_FOLDER"] = "uploads"
 
     def run(self):
-        self.app.run()
+        is_development_environment = os.environ.get("ENVIRONMENT") == "development"
+        self.app.run(debug=is_development_environment)
