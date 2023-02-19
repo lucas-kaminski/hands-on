@@ -10,6 +10,7 @@ mysql-connector-python = "*"
 
 [scripts]
 scripts = "python scripts/executer.py"
+dev = "python src/main.py"
 
 [dev-packages]
 black = "*"
