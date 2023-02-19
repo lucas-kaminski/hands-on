@@ -2,6 +2,11 @@ import mysql.connector
 import os
 
 
+class BaseDAO:
+    def __init__(self):
+        self.connection = Connector()
+
+
 class Connector:
     def __init__(self):
         config = {
