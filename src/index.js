@@ -41,7 +41,6 @@ function processUsersPhone(users, client) {
     }
   }
 }
-
 (async () => {
   const client = new Client({
     authStrategy: new LocalAuth(),
@@ -58,8 +57,6 @@ function processUsersPhone(users, client) {
     console.log("Connected to WhatsApp!");
 
     client.on("message_create", (message) => {
-      console.log(message);
-
       if (message.body === "!ping") {
         message.reply("pong");
       }
@@ -102,30 +99,56 @@ function processUsersPhone(users, client) {
               channel_id = channel[0].WHATSAPP_ID;
               console.log("Channel id", channel_id);
               console.log("User id", user_id);
-              client.getChatById(channel_id).then((chat) => {
-                chat.addParticipants([user_id]);
+              client.getChatById(user_id).then((chat) => {
+                chat.sendMessage("Teste");
               });
+              // client.getChatById(channel_id).then((chat) => {
+              //   chat
+              //     .addParticipants([user_id])
+              //     .then((result) => {
+              //       console.log("Result", result);
+              //     })
+              //     .catch((err) => {
+              //       console.log("Error", err);
+              //     });
+              // });
             });
-          } else if (sync_code == "add_member_all_fraternity") {
-            console.log("Syncing add_member_all_fraternity");
+          } else if (sync_code == "add_member_list") {
             let channel_id = 27;
-            const whatsapp_ids = [];
+            const valid_emails = [
+              "domingosmantelli@gmail.com",
+              "nogueiraabreu@uol.com.br",
+              "henridiskin@gmail.com",
+              "sergiooliveirachaveiro@gmail.com",
+              "marcosdeg@hotmail.com",
+              "rudoliveiraoficial@gmail.com",
+              "bruvelloso@gmail.com",
+              "rafaelfaguilar@hotmail.com",
+              "ipmachado@hotmail.com",
+              "richard.santos389@gmail.con",
+            ];
             db.getChannel(channel_id).then((channel) => {
               channel_id = channel[0].WHATSAPP_ID;
               console.log("Channel id", channel_id);
-            });
-            db.selectAllFraternityUsers().then((users) => {
-              for (let user of users) {
-                if (user.WHATSAPP_ID) {
-                  client.getChatById(channel_id).then((chat) => {
-                    chat.addParticipants([user.WHATSAPP_ID]);
-                  });
+
+              db.selectAllFraternityUsers().then((users) => {
+                for (let user of users) {
+                  if (valid_emails.includes(user.EMAIL)) {
+                    client
+                      .getChatById(channel_id)
+                      .then((chat) => {
+                        console.log("Adding user", user.ID);
+                        // chat.addParticipants([user.WHATSAPP_ID]);
+                      })
+                      .catch((err) => {
+                        console.log("Error", err);
+                      });
+                  }
                 }
-              }
-            }
+              });
+            });
           }
         }
-        console.log("Message sync processed", message.body);
       }
     });
   });
