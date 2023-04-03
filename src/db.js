@@ -25,7 +25,7 @@ async function connect() {
 async function selectAllFraternityUsers() {
   const conn = await connect();
   const [rows] = await conn.query(
-    "SELECT * FROM users WHERE ID IN (SELECT USER_ID FROM vw_allFraternityUsersActive)"
+    "SELECT * FROM users WHERE ID IN (SELECT USER_ID FROM vw_allFraternityActiveTransactions)"
     // "SELECT * FROM users WHERE ID IN (13299)"
   );
   return rows;
@@ -34,7 +34,7 @@ async function selectAllFraternityUsers() {
 async function selectAllAdmUsers() {
   const conn = await connect();
   const [rows] = await conn.query(
-    "SELECT * FROM users WHERE ID IN (SELECT USER_ID FROM vw_allAdmUsers)"
+    "SELECT * FROM users WHERE ID IN (SELECT USER_ID FROM adm_users)"
   );
   return rows;
 }
