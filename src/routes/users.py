@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from database.dao.users import UsersDAO
+from dao.users import UsersDAO
 
 blueprint = Blueprint("users", __name__)
 
