@@ -63,6 +63,15 @@ async function getUser(userId) {
   return rows;
 }
 
+async function getUserByEmail(email) {
+  const conn = await connect();
+  const [rows] = await conn.query("SELECT * FROM users WHERE EMAIL = ?", [
+    email,
+  ]);
+  // return last row
+  return rows[rows.length - 1];
+}
+
 async function getChannel(channelId) {
   const conn = await connect();
   const [rows] = await conn.query("SELECT * FROM channels WHERE ID = ?", [
@@ -77,4 +86,5 @@ module.exports = {
   createChannel,
   getUser,
   getChannel,
+  getUserByEmail,
 };

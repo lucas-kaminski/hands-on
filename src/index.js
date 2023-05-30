@@ -113,8 +113,7 @@ function processUsersPhone(users, client) {
               //     });
               // });
             });
-          } else if (sync_code == "add_member_list") {
-            let channel_id = 27;
+          } else if (sync_code == "call_list_to_channel") {
             const valid_emails = [
               "domingosmantelli@gmail.com",
               "nogueiraabreu@uol.com.br",
@@ -125,28 +124,32 @@ function processUsersPhone(users, client) {
               "bruvelloso@gmail.com",
               "rafaelfaguilar@hotmail.com",
               "ipmachado@hotmail.com",
-              "richard.santos389@gmail.con",
+              "richard.santos389@gmail.com",
+              "lucas.kssilveira@gmail.com",
             ];
-            db.getChannel(channel_id).then((channel) => {
-              channel_id = channel[0].WHATSAPP_ID;
-              console.log("Channel id", channel_id);
-
-              db.selectAllFraternityUsers().then((users) => {
-                for (let user of users) {
-                  if (valid_emails.includes(user.EMAIL)) {
-                    client
-                      .getChatById(channel_id)
-                      .then((chat) => {
-                        console.log("Adding user", user.ID);
-                        // chat.addParticipants([user.WHATSAPP_ID]);
+            for (let email of valid_emails) {
+              db.getUserByEmail(email).then((user) => {
+                console.log(user);
+                console.log(user.WHATSAPP_ID);
+                console.log("email", email);
+                client
+                  .getChatById(user.WHATSAPP_ID)
+                  .then((chat) => {
+                    const message = `Falaaaa ${user.FIRST_NAME}! \n\nSeja muitoooo bem vindo ao nosso grupo da fraternidade exclusivo no whatsapp! \n\nSegue o link para entrar no grupo: \nhttps://chat.whatsapp.com/L8KWyS9V18OEYdkFhMBE78`;
+                    chat
+                      .sendMessage(message)
+                      .then((result) => {
+                        console.log("Result", result);
                       })
                       .catch((err) => {
                         console.log("Error", err);
                       });
-                  }
-                }
+                  })
+                  .catch((err) => {
+                    console.log("Error on get chat", err);
+                  });
               });
-            });
+            }
           }
         }
       }
