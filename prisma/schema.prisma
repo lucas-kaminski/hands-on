@@ -1,0 +1,112 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider   = "mysql"
+  url        = env("DATABASE_URL")
+  engineType = "binary"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Plants
+model plants {
+  id             Int              @id @default(autoincrement())
+  name           String
+  collection     plant_collection
+  description    String?
+  purchase_price Float?           @default(0.0)
+  created_at     DateTime         @default(now())
+
+  purchase_id Int?
+  purchase    purchases? @relation("purchase-plant", fields: [purchase_id], references: [id])
+  stock_id    Int?       @unique
+  stock       stock?     @relation("stock-plant", fields: [stock_id], references: [id])
+
+  propagations propagation[] @relation("propagation")
+}
+
+model propagation {
+  id            Int               @id @default(autoincrement())
+  obs           String?
+  first_roots   DateTime?
+  water_or_soil propagation_soil?
+  created_at    DateTime          @default(now())
+
+  mother_plant_id Int
+  mother_plant    plants @relation("propagation", fields: [mother_plant_id], references: [id])
+}
+
+enum origin_plant {
+  Compra
+  Propagacao
+  Indefinido
+}
+
+// Cachepots
+model cachepots {
+  id             Int      @id @default(autoincrement())
+  description    String
+  size           String
+  purchase_price Float
+  created_at     DateTime @default(now())
+
+  purchase_id Int?
+  purchase    purchases? @relation("purchase-cachepot", fields: [purchase_id], references: [id])
+  stock_id    Int?       @unique
+  stock       stock?     @relation("stock-cachepot", fields: [stock_id], references: [id])
+}
+
+// Financeiro
+model stock {
+  id            Int      @id @default(autoincrement())
+  selling_price Float
+  obs           String?
+  created_at    DateTime @default(now())
+
+  selling_id Int?
+  selling    sellings?  @relation("selling", fields: [selling_id], references: [id])
+  plant      plants?    @relation("stock-plant")
+  cachepot   cachepots? @relation("stock-cachepot")
+}
+
+model purchases {
+  id          Int      @id @default(autoincrement())
+  place       String
+  value       Float
+  description String?
+  obs         String?
+  created_at  DateTime @default(now())
+
+  plants    plants[]    @relation("purchase-plant")
+  cachepots cachepots[] @relation("purchase-cachepot")
+}
+
+model sellings {
+  id          Int   @id @default(autoincrement())
+  final_price Float
+
+  freight freight? @relation("freight")
+  stocks  stock[]  @relation("selling")
+}
+
+model freight {
+  selling_id Int    @id
+  district   String
+  value      Float
+
+  selling sellings @relation("freight", fields: [selling_id], references: [id])
+}
+
+//Enums
+enum plant_collection {
+  Pessoal
+  Loja
+}
+
+enum propagation_soil {
+  Agua
+  Substrato
+}

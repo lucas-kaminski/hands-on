@@ -1,0 +1,61 @@
+{
+  "name": "amago-server",
+  "version": "1.0.0",
+  "author": "lucas-kaminski",
+  "description": "Amago Server",
+  "license": "MIT",
+  "main": "index.js",
+  "engines": {
+    "node": "14.x",
+    "yarn": "1.x"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --ext .ts,.js --fix",
+    "docker": "docker start mysql redis",
+    "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify  src/server.ts",
+    "migrate": "yarn prisma migrate dev",
+    "seed": "yarn prisma migrate reset",
+    "start": "node dist/server.js",
+    "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.0.2",
+    "@types/cors": "^2.8.12",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1"
+  },
+  "keywords": [
+    "example",
+    "heroku"
+  ],
+  "devDependencies": {
+    "@types/express": "^4.17.12",
+    "@types/node": "^16.9.1",
+    "@typescript-eslint/eslint-plugin": "^4.24.0",
+    "@typescript-eslint/parser": "^4.24.0",
+    "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.23.2",
+    "eslint-plugin-import-helpers": "^1.1.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "prettier": "^2.3.0",
+    "prisma": "^3.0.2",
+    "ts-node": "^10.2.1",
+    "ts-node-dev": "^1.1.6",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^4.4.2",
+    "@babel/cli": "^7.14.5",
+    "@babel/core": "^7.14.6",
+    "@babel/node": "^7.14.7",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-typescript": "^7.14.5",
+    "babel-plugin-module-resolver": "^4.1.0"
+  }
+}
