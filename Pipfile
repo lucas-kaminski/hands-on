@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "my-money"
+
+[packages]
+flask = "*"
+python-dotenv = "*"
+mysql-connector-python = "*"
+
+[scripts]
+scripts = "python scripts/executer.py"
+dev = "python src/main.py"
+
+[dev-packages]
+black = "*"
+
+[requires]
+python_version = "3.11"
