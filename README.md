@@ -1,3 +1,3 @@
-Repositório onde armazeno todos os meus códigos, algoritmos e mini-projetos desenvolvidos durante a minha jornada de aprendizado em programação.
+Repository where I store all of my codes, algorithms, and small projects developed during my programming learning journey.
 
-Cada pasta do repositório contém projetos na linguagem de programação correspondente ao nome da pasta.
+Each folder in the repository contains projects in the programming language corresponding to the folder's name.
