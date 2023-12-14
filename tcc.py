@@ -8,9 +8,6 @@ os.environ["OPENAI_API_KEY"] = api_key
 client = OpenAI()
 
 
-# Configuração da API key da OpenAI
-api_key = "SUA_API_KEY"  # Substitua 'SUA_API_KEY' pela sua chave da OpenAI
-
 # Dados tabelados com textos em pt e br
 dados = [
     {"Texto_es": "Hola, ¿cómo estás?", "Texto_pt": "Olá, como está?"},
@@ -30,9 +27,9 @@ dados = [
 
 prompts = [
     "Traduza: '{}'",
-    "Traduza a frase '{}' para o Português, mantendo a fluidez e o contexto da frase original em Espanhol.",
-    "Traduza '{}' para o Português. Este texto faz parte de uma narrativa infantil e a tradução precisa manter a leveza e o tom lúdico.",
+    "Traduza a frase '{}' para o Português.",
     "Por favor, traduza a frase '{}' para o Português, mantendo a estrutura gramatical e considerando a adequação cultural.",
+    "Traduza '{}' para o Português, mantendo a maior fidelidade de sentido entre a origem e sua tradução. Este texto faz parte de um projeto de pesquisa e a tradução precisa ser com a melhor qualidade possível.",
 ]
 
 
@@ -56,13 +53,13 @@ for dado in dados:
         resultados[dado["Texto_es"]][prompt] = get_translation(prompt, dado["Texto_es"])
 
 # Verifica se o arquivo existe, se não existir, cria um novo
-if not os.path.exists("resultados_traducoes.csv"):
-    open("resultados_traducoes.csv", "w").close()
+if not os.path.exists("resultados-traducoes.csv"):
+    open("resultados-traducoes.csv", "w").close()
 
 
 # Salvando os resultados em um arquivo CSV
 with open(
-    "resultados_traducoes.csv", mode="w", encoding="utf-8", newline=""
+    "resultados-traducoes.csv", mode="w", encoding="utf-8", newline=""
 ) as csv_file:
     fieldnames = ["Texto_es", "Texto_pt", "Prompt", "Tradução"]
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
